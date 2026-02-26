@@ -14,16 +14,197 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      animais: {
+        Row: {
+          created_at: string
+          descricao: string | null
+          especie: string
+          foto_url: string | null
+          id: string
+          idade: string
+          nome: string
+          sexo: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          descricao?: string | null
+          especie: string
+          foto_url?: string | null
+          id?: string
+          idade: string
+          nome: string
+          sexo: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string | null
+          especie?: string
+          foto_url?: string | null
+          id?: string
+          idade?: string
+          nome?: string
+          sexo?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      animais_perdidos: {
+        Row: {
+          created_at: string
+          descricao: string
+          id: string
+          imagem_url: string | null
+          local: string
+          status: string
+          telefone: string
+        }
+        Insert: {
+          created_at?: string
+          descricao: string
+          id?: string
+          imagem_url?: string | null
+          local: string
+          status?: string
+          telefone: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string
+          id?: string
+          imagem_url?: string | null
+          local?: string
+          status?: string
+          telefone?: string
+        }
+        Relationships: []
+      }
+      contatos: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          mensagem: string
+          nome: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          mensagem: string
+          nome: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          mensagem?: string
+          nome?: string
+        }
+        Relationships: []
+      }
+      denuncias: {
+        Row: {
+          created_at: string
+          descricao: string
+          endereco: string
+          id: string
+          imagem_url: string | null
+          nome: string | null
+          status: string
+          telefone: string
+        }
+        Insert: {
+          created_at?: string
+          descricao: string
+          endereco: string
+          id?: string
+          imagem_url?: string | null
+          nome?: string | null
+          status?: string
+          telefone: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string
+          endereco?: string
+          id?: string
+          imagem_url?: string | null
+          nome?: string | null
+          status?: string
+          telefone?: string
+        }
+        Relationships: []
+      }
+      interesses_adocao: {
+        Row: {
+          animal_id: string
+          created_at: string
+          email: string
+          id: string
+          nome: string
+          telefone: string
+        }
+        Insert: {
+          animal_id: string
+          created_at?: string
+          email: string
+          id?: string
+          nome: string
+          telefone: string
+        }
+        Update: {
+          animal_id?: string
+          created_at?: string
+          email?: string
+          id?: string
+          nome?: string
+          telefone?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "interesses_adocao_animal_id_fkey"
+            columns: ["animal_id"]
+            isOneToOne: false
+            referencedRelation: "animais"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +331,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
