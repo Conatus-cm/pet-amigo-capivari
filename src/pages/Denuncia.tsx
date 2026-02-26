@@ -5,13 +5,32 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Denuncia = () => {
   const [enviado, setEnviado] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: integrate with Supabase
+    setLoading(true);
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const { error } = await supabase.from("denuncias").insert({
+      nome: (formData.get("nome") as string) || null,
+      telefone: formData.get("telefone") as string,
+      endereco: formData.get("endereco") as string,
+      descricao: formData.get("descricao") as string,
+    });
+
+    setLoading(false);
+    if (error) {
+      toast({ title: "Erro ao enviar denúncia", description: error.message, variant: "destructive" });
+      return;
+    }
     setEnviado(true);
   };
 
@@ -49,26 +68,26 @@ const Denuncia = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <Label htmlFor="nome">Nome (opcional)</Label>
-                <Input id="nome" placeholder="Seu nome" />
+                <Input id="nome" name="nome" placeholder="Seu nome" />
               </div>
               <div>
                 <Label htmlFor="telefone">Telefone</Label>
-                <Input id="telefone" placeholder="(19) 99999-9999" required />
+                <Input id="telefone" name="telefone" placeholder="(19) 99999-9999" required />
               </div>
               <div>
                 <Label htmlFor="endereco">Endereço da Ocorrência</Label>
-                <Input id="endereco" placeholder="Rua, número, bairro" required />
+                <Input id="endereco" name="endereco" placeholder="Rua, número, bairro" required />
               </div>
               <div>
                 <Label htmlFor="descricao">Descrição</Label>
-                <Textarea id="descricao" placeholder="Descreva a situação..." rows={5} required />
+                <Textarea id="descricao" name="descricao" placeholder="Descreva a situação..." rows={5} required />
               </div>
               <div>
                 <Label htmlFor="imagem">Imagem (evidência)</Label>
                 <Input id="imagem" type="file" accept="image/*" />
               </div>
-              <Button type="submit" className="w-full font-bold" size="lg">
-                Enviar Denúncia
+              <Button type="submit" className="w-full font-bold" size="lg" disabled={loading}>
+                {loading ? "Enviando..." : "Enviar Denúncia"}
               </Button>
             </form>
           </CardContent>
