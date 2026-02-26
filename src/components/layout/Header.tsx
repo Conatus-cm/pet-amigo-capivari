@@ -38,7 +38,7 @@ const Header = () => {
               {link.label}
             </Link>
           ))}
-          <Link to="/admin">
+          <Link to="/admin/login">
             <Button size="sm" variant="outline" className="ml-2">
               Admin
             </Button>
@@ -72,7 +72,7 @@ const Header = () => {
               {link.label}
             </Link>
           ))}
-          <Link to="/admin" onClick={() => setMenuOpen(false)}>
+          <Link to="/admin/login" onClick={() => setMenuOpen(false)}>
             <Button size="sm" variant="outline" className="w-full mt-1">
               Admin
             </Button>
