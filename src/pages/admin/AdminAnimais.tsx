@@ -22,7 +22,7 @@ interface Animal {
   created_at: string;
 }
 
-const emptyAnimal = { nome: "", idade: "", sexo: "Macho", especie: "Cachorro", raca: "", porte: "", personalidade: "", descricao: "", foto_url: "", status: "disponivel" };
+const emptyAnimal = { nome: "", idade: "", sexo: "Macho", especie: "Cachorro", raca: "", porte: "", personalidade: "", vacinas: "", descricao: "", foto_url: "", status: "disponivel" };
 
 const AdminAnimais = () => {
   const [animais, setAnimais] = useState<Animal[]>([]);
@@ -53,7 +53,7 @@ const AdminAnimais = () => {
   };
 
   const handleEdit = (animal: Animal) => {
-    setForm({ nome: animal.nome, idade: animal.idade, sexo: animal.sexo, especie: animal.especie, raca: (animal as any).raca || "", porte: (animal as any).porte || "", personalidade: (animal as any).personalidade || "", descricao: animal.descricao || "", foto_url: animal.foto_url || "", status: animal.status });
+    setForm({ nome: animal.nome, idade: animal.idade, sexo: animal.sexo, especie: animal.especie, raca: (animal as any).raca || "", porte: (animal as any).porte || "", personalidade: (animal as any).personalidade || "", vacinas: (animal as any).vacinas || "", descricao: animal.descricao || "", foto_url: animal.foto_url || "", status: animal.status });
     setEditId(animal.id);
     setOpen(true);
   };
@@ -105,6 +105,7 @@ const AdminAnimais = () => {
                 </div>
               </div>
               <div><Label>Personalidade</Label><Input value={form.personalidade} onChange={(e) => setForm({ ...form, personalidade: e.target.value })} placeholder="Ex: Dócil, brincalhão" /></div>
+              <div><Label>Vacinas</Label><Textarea value={form.vacinas} onChange={(e) => setForm({ ...form, vacinas: e.target.value })} placeholder="Ex: V10, Antirrábica, Giárdia" rows={2} /></div>
               <div><Label>Descrição</Label><Textarea value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} rows={3} /></div>
               <div><Label>URL da Foto</Label><Input value={form.foto_url} onChange={(e) => setForm({ ...form, foto_url: e.target.value })} placeholder="https://..." /></div>
               <div><Label>Status</Label>

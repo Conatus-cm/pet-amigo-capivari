@@ -1,0 +1,1 @@
+ALTER TABLE public.animais ADD COLUMN vacinas text DEFAULT '' NOT NULL;
