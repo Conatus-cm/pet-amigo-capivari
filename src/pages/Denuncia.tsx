@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { ShieldAlert, CheckCircle } from "lucide-react";
+import { ShieldAlert, CheckCircle, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const Denuncia = () => {
   const [enviado, setEnviado] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [anonimo, setAnonimo] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -20,8 +22,8 @@ const Denuncia = () => {
     const formData = new FormData(form);
 
     const { error } = await supabase.from("denuncias").insert({
-      nome: (formData.get("nome") as string) || null,
-      telefone: formData.get("telefone") as string,
+      nome: anonimo ? "Anônimo" : ((formData.get("nome") as string) || null),
+      telefone: anonimo ? "Anônimo" : (formData.get("telefone") as string),
       endereco: formData.get("endereco") as string,
       descricao: formData.get("descricao") as string,
     });
@@ -42,7 +44,7 @@ const Denuncia = () => {
         <p className="text-muted-foreground mb-6">
           Sua denúncia foi registrada com sucesso. O CCZ irá analisar o caso.
         </p>
-        <Button onClick={() => setEnviado(false)}>Enviar Nova Denúncia</Button>
+        <Button onClick={() => { setEnviado(false); setAnonimo(false); }}>Enviar Nova Denúncia</Button>
       </div>
     );
   }
@@ -66,14 +68,31 @@ const Denuncia = () => {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="nome">Nome (opcional)</Label>
-                <Input id="nome" name="nome" placeholder="Seu nome" />
+              {/* Anonymous toggle */}
+              <div className="flex items-center justify-between rounded-lg border border-border p-4 bg-muted/30">
+                <div className="flex items-center gap-3">
+                  <EyeOff className="h-5 w-5 text-muted-foreground" />
+                  <div>
+                    <p className="font-semibold text-sm">Denúncia Anônima</p>
+                    <p className="text-xs text-muted-foreground">Seus dados de identificação não serão registrados</p>
+                  </div>
+                </div>
+                <Switch checked={anonimo} onCheckedChange={setAnonimo} />
               </div>
-              <div>
-                <Label htmlFor="telefone">Telefone</Label>
-                <Input id="telefone" name="telefone" placeholder="(19) 99999-9999" required />
-              </div>
+
+              {!anonimo && (
+                <>
+                  <div>
+                    <Label htmlFor="nome">Nome (opcional)</Label>
+                    <Input id="nome" name="nome" placeholder="Seu nome" />
+                  </div>
+                  <div>
+                    <Label htmlFor="telefone">Telefone</Label>
+                    <Input id="telefone" name="telefone" placeholder="(19) 99999-9999" required />
+                  </div>
+                </>
+              )}
+
               <div>
                 <Label htmlFor="endereco">Endereço da Ocorrência</Label>
                 <Input id="endereco" name="endereco" placeholder="Rua, número, bairro" required />
