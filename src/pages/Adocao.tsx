@@ -24,6 +24,7 @@ interface Animal {
   raca: string;
   porte: string;
   personalidade: string;
+  vacinas: string;
   descricao: string | null;
   foto_url: string | null;
   status: string;
@@ -129,6 +130,12 @@ const Adocao = () => {
                   </div>
                 )}
               </div>
+              {selected.vacinas && (
+                <div className="rounded-lg border border-border p-3 mt-2">
+                  <p className="text-xs text-muted-foreground font-semibold">Vacinas</p>
+                  <p className="font-bold text-sm">{selected.vacinas}</p>
+                </div>
+              )}
               {selected.descricao && (
                 <div>
                   <h3 className="font-semibold text-sm text-muted-foreground mb-1">Sobre</h3>
