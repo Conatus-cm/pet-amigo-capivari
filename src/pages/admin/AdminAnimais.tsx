@@ -22,7 +22,7 @@ interface Animal {
   created_at: string;
 }
 
-const emptyAnimal = { nome: "", idade: "", sexo: "Macho", especie: "Cachorro", descricao: "", foto_url: "", status: "disponivel" };
+const emptyAnimal = { nome: "", idade: "", sexo: "Macho", especie: "Cachorro", raca: "", porte: "", personalidade: "", descricao: "", foto_url: "", status: "disponivel" };
 
 const AdminAnimais = () => {
   const [animais, setAnimais] = useState<Animal[]>([]);
@@ -53,7 +53,7 @@ const AdminAnimais = () => {
   };
 
   const handleEdit = (animal: Animal) => {
-    setForm({ nome: animal.nome, idade: animal.idade, sexo: animal.sexo, especie: animal.especie, descricao: animal.descricao || "", foto_url: animal.foto_url || "", status: animal.status });
+    setForm({ nome: animal.nome, idade: animal.idade, sexo: animal.sexo, especie: animal.especie, raca: (animal as any).raca || "", porte: (animal as any).porte || "", personalidade: (animal as any).personalidade || "", descricao: animal.descricao || "", foto_url: animal.foto_url || "", status: animal.status });
     setEditId(animal.id);
     setOpen(true);
   };
@@ -90,7 +90,21 @@ const AdminAnimais = () => {
                   </Select>
                 </div>
               </div>
-              <div><Label>Idade</Label><Input value={form.idade} onChange={(e) => setForm({ ...form, idade: e.target.value })} placeholder="Ex: 2 anos" required /></div>
+              <div><Label>Raça</Label><Input value={form.raca} onChange={(e) => setForm({ ...form, raca: e.target.value })} placeholder="Ex: Labrador, SRD" /></div>
+              <div className="grid grid-cols-2 gap-3">
+                <div><Label>Idade</Label><Input value={form.idade} onChange={(e) => setForm({ ...form, idade: e.target.value })} placeholder="Ex: 2 anos" required /></div>
+                <div><Label>Porte</Label>
+                  <Select value={form.porte} onValueChange={(v) => setForm({ ...form, porte: v })}>
+                    <SelectTrigger><SelectValue placeholder="Selecione" /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Pequeno">Pequeno</SelectItem>
+                      <SelectItem value="Médio">Médio</SelectItem>
+                      <SelectItem value="Grande">Grande</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div><Label>Personalidade</Label><Input value={form.personalidade} onChange={(e) => setForm({ ...form, personalidade: e.target.value })} placeholder="Ex: Dócil, brincalhão" /></div>
               <div><Label>Descrição</Label><Textarea value={form.descricao} onChange={(e) => setForm({ ...form, descricao: e.target.value })} rows={3} /></div>
               <div><Label>URL da Foto</Label><Input value={form.foto_url} onChange={(e) => setForm({ ...form, foto_url: e.target.value })} placeholder="https://..." /></div>
               <div><Label>Status</Label>

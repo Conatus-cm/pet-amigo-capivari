@@ -23,6 +23,9 @@ export type Database = {
           id: string
           idade: string
           nome: string
+          personalidade: string
+          porte: string
+          raca: string
           sexo: string
           status: string
         }
@@ -34,6 +37,9 @@ export type Database = {
           id?: string
           idade: string
           nome: string
+          personalidade?: string
+          porte?: string
+          raca?: string
           sexo: string
           status?: string
         }
@@ -45,6 +51,9 @@ export type Database = {
           id?: string
           idade?: string
           nome?: string
+          personalidade?: string
+          porte?: string
+          raca?: string
           sexo?: string
           status?: string
         }

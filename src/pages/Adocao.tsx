@@ -21,6 +21,9 @@ interface Animal {
   especie: string;
   sexo: string;
   idade: string;
+  raca: string;
+  porte: string;
+  personalidade: string;
   descricao: string | null;
   foto_url: string | null;
   status: string;
@@ -101,6 +104,30 @@ const Adocao = () => {
                 <Badge variant="default">{selected.especie}</Badge>
                 <Badge variant="secondary">{selected.sexo}</Badge>
                 <Badge variant="outline">{selected.idade}</Badge>
+              </div>
+              <div className="grid grid-cols-2 gap-3 mt-2">
+                {selected.raca && (
+                  <div className="rounded-lg border border-border p-3">
+                    <p className="text-xs text-muted-foreground font-semibold">Raça</p>
+                    <p className="font-bold text-sm">{selected.raca}</p>
+                  </div>
+                )}
+                {selected.porte && (
+                  <div className="rounded-lg border border-border p-3">
+                    <p className="text-xs text-muted-foreground font-semibold">Porte</p>
+                    <p className="font-bold text-sm">{selected.porte}</p>
+                  </div>
+                )}
+                <div className="rounded-lg border border-border p-3">
+                  <p className="text-xs text-muted-foreground font-semibold">Idade</p>
+                  <p className="font-bold text-sm">{selected.idade}</p>
+                </div>
+                {selected.personalidade && (
+                  <div className="rounded-lg border border-border p-3">
+                    <p className="text-xs text-muted-foreground font-semibold">Personalidade</p>
+                    <p className="font-bold text-sm">{selected.personalidade}</p>
+                  </div>
+                )}
               </div>
               {selected.descricao && (
                 <div>
