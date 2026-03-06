@@ -28,6 +28,7 @@ export type Database = {
           raca: string
           sexo: string
           status: string
+          vacinas: string
         }
         Insert: {
           created_at?: string
@@ -42,6 +43,7 @@ export type Database = {
           raca?: string
           sexo: string
           status?: string
+          vacinas?: string
         }
         Update: {
           created_at?: string
@@ -56,6 +58,7 @@ export type Database = {
           raca?: string
           sexo?: string
           status?: string
+          vacinas?: string
         }
         Relationships: []
       }
